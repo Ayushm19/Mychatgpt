@@ -102,11 +102,25 @@ const Message: React.FC<MessageProps> = ({ role, content }) => {
                 unoptimized
               />
             ) : isPDF ? (
+              <div className='w-full max-w-xs sm:max-w-md rounded-lg overflow-hidden'>
               <iframe
-                src={content}
-                className='w-[300px] h-[400px] rounded-lg border border-white/10'
-                title='PDF preview'
+              src={content}
+              className='w-full h-[450px] sm:h-[400px] rounded-lg border border-white/10'
+              title='PDF Preview'
+              style={{ zoom: 1 }}
               />
+             <div className="mt-2 text-center">
+             <a
+                href={content}
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-blue-400 underline"
+            >
+          📥 Download PDF
+          </a>
+        </div>
+      </div>
             ) : null
           ) : role === 'user' ? (
             <span className='text-white/90'>{content}</span>
