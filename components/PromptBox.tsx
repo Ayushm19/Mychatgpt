@@ -252,7 +252,7 @@ const PromptBox: React.FC<PromptBoxProps> = ({ setIsLoading, isLoading }) => {
             />
             <p 
             onClick={handleDeepThinkClick}
-            className="flex items-center gap-2 text-xs border border-gray-300/40 px-2 py-1 rounded-full cursor-pointer hover:bg-gray-500/20 transition">
+            className="hidden sm:flex items-center gap-2 text-xs border border-gray-300/40 px-2 py-1 rounded-full cursor-pointer hover:bg-gray-500/20 transition">
               <Image className="h-5" src={assets.deepthink_icon} alt="" />
               DeepThink
             </p>
@@ -264,7 +264,7 @@ const PromptBox: React.FC<PromptBoxProps> = ({ setIsLoading, isLoading }) => {
             }
             setShowSearchDialog(true)
             }}
-            className="flex items-center gap-2 text-xs border border-gray-300/40 px-2 py-1 rounded-full cursor-pointer hover:bg-gray-500/20 transition">
+            className="hidden sm:flex items-center gap-2 text-xs border border-gray-300/40 px-2 py-1 rounded-full cursor-pointer hover:bg-gray-500/20 transition">
               <Image className="h-5" src={assets.search_icon} alt="" />
               Search
             </p>
