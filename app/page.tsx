@@ -7,7 +7,7 @@ import Sidebar from "@/components/Sidebar";
 import { useAppContext } from "@/context/AppContext";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, useUser } from "@clerk/nextjs";
 import toast from 'react-hot-toast'
 
 interface MessageType {
@@ -41,6 +41,8 @@ export default function Home() {
   const [showUpgradeModal, setShowUpgradeModal] = useState<boolean>(false);
   const { selectedChat, createNewChat } = useAppContext();
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const { isSignedIn } = useUser();
+
 
   useEffect(() => {
     if (selectedChat) {
@@ -214,7 +216,21 @@ export default function Home() {
             </div>
           )}
 
-          <PromptBox isLoading={isLoading} setIsLoading={setIsLoading} />
+          {!isSignedIn ? (
+          <div
+            onClick={() => toast.error("🔒 Please login to send a message.")}
+            className="w-full max-w-2xl bg-[#404045] p-4 rounded-3xl mt-4 cursor-not-allowed opacity-80"
+          >
+         <textarea
+            disabled
+            placeholder="Login to message ChatGPT"
+            className="outline-none w-full resize-none overflow-hidden break-words bg-transparent text-gray-400"
+            rows={2}
+         />
+         </div>
+        ) : (
+        <PromptBox isLoading={isLoading} setIsLoading={setIsLoading} />
+        )}
           <p className="text-xs absolute bottom-1 text-gray-500">
             AI-can also make mistakes, for reference only
           </p>
