@@ -8,6 +8,7 @@ import { useAppContext } from "@/context/AppContext";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { UserButton } from "@clerk/nextjs";
+import toast from 'react-hot-toast'
 
 interface MessageType {
   role: string;
@@ -159,7 +160,13 @@ export default function Home() {
 
           {/* Desktop top-right controls */}
           <div className="hidden md:flex absolute top-4 right-4 items-center gap-3 z-30">
-            <button className="bg-[#2c2e33] text-white text-sm px-3 py-1 rounded-lg border border-white/10 hover:border-white/30">
+            <button
+             onClick={() => {
+             const link = 'https://mychatgpt-ayusmishra-ten.vercel.app/';
+             navigator.clipboard.writeText(link);
+             toast.success('🔗 Link copied to clipboard!');
+              }}
+            className="bg-[#2c2e33] text-white text-sm px-3 py-1 rounded-lg border border-white/10 hover:border-white/30">
               Share ⏫
             </button>
             <button

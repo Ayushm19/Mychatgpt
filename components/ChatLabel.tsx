@@ -75,7 +75,7 @@ const ChatLabel: React.FC<ChatLabelProps> = ({ openMenu, setOpenMenu, id, name }
           <Image
             src={assets.three_dots}
             alt=""
-            className={`w-4 ${openMenu.id === id && openMenu.open ? '' : 'hidden'} group-hover:block`}
+            className={`w-4 block lg:${openMenu.id === id && openMenu.open ? '' : 'hidden'} lg:group-hover:block`}
           />
         </div>
       </div>
