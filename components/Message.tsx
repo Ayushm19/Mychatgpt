@@ -35,9 +35,13 @@ const Message: React.FC<MessageProps> = ({ role, content }) => {
           }`}
         >
           <div
-            className={`opacity-0 group-hover:opacity-100 absolute ${
-              role === 'user' ? '-left-16 top-2.5' : 'left-9 -bottom-6'
-            } transition-all`}
+            className={`
+                  absolute
+                  transition-all
+                  opacity-100 
+                  sm:opacity-0 sm:group-hover:opacity-100
+                  ${role === 'user' ? '-left-16 top-2.5' : 'left-9 -bottom-6'}
+            `}
           >
             <div className='flex items-center gap-2 opacity-70'>
               {role === 'user' ? (
