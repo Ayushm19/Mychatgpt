@@ -35,7 +35,7 @@ export default function SearchDialog({ searchQuery, open, setOpen }: SearchDialo
       <DialogContent
         className="max-w-lg w-full max-h-[90vh] overflow-y-auto sm:rounded-xl p-4 sm:p-6"
       >
-        <DialogTitle>Search results for "{searchQuery}"</DialogTitle>
+        <DialogTitle>Search results for &quot;{searchQuery}&quot;</DialogTitle>
         <DialogDescription>
           Showing top results powered by SerpAPI.
         </DialogDescription>

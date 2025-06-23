@@ -175,7 +175,7 @@ export default function Home() {
             <>
               <div className="flex items-center gap-3">
                 <Image src={assets.chatgpt_icon} alt="" className="w-12 h-12" />
-                <p className="text-2xl font-medium">Hi, I'm Chat-GPT.</p>
+                <p className="text-2xl font-medium">Hi, I&apos;m Chat-GPT.</p>
               </div>
               <p className="text-sm mt-2">How can I help you today?</p>
             </>

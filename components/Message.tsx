@@ -89,10 +89,13 @@ const Message: React.FC<MessageProps> = ({ role, content }) => {
           {/* 👇 Render image or PDF preview if content is a Cloudinary link */}
           {role === 'user' && (isImage || isPDF) ? (
             isImage ? (
-              <img
+              <Image
                 src={content}
                 alt='Uploaded image'
+                width={300}
+                height={300}
                 className='max-w-xs rounded-lg'
+                unoptimized
               />
             ) : isPDF ? (
               <iframe
