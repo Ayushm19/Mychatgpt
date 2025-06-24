@@ -66,12 +66,22 @@ export default function Home() {
     }
   };
 
+  useEffect(() => {
+  if (containerRef.current) {
+    containerRef.current.scrollTo({
+      top: containerRef.current.scrollHeight,
+      behavior: "smooth",
+    });
+  }
+  }, [messages, isLoading]); // 👈 include isLoading for streaming UI too
+
+
   return (
     <div>
-      <div className="flex h-screen">
+      <div className="flex h-screen overflow-hidden">
         <Sidebar expand={expand} setExpand={setExpand} />
 
-        <div className="flex-1 flex flex-col items-center justify-center px-4 pb-8 bg-[#292a2d] text-white relative">
+        <div className="flex-1 flex flex-col bg-[#292a2d] text-white relative">
 
           {/* 🔽 Custom Dropdown */}
           <div
@@ -180,60 +190,92 @@ export default function Home() {
             <UserButton afterSignOutUrl="/" />
           </div>
 
-          {messages.length === 0 ? (
-            <>
-              <div className="flex items-center gap-3">
-                <Image src={assets.chatgpt_icon} alt="" className="w-12 h-12" />
-                <p className="text-2xl font-medium">Hi, I&apos;m Chat-GPT.</p>
-              </div>
-              <p className="text-sm mt-2">How can I help you today?</p>
-            </>
-          ) : (
-            <div
-              ref={containerRef}
-              className="relative flex flex-col items-center justify-start w-full mt-20 max-h-screen overflow-y-auto"
-            >
-              <p className="fixed top-8 border border-transparent hover:border-gray-500/50 py-1 px-2 rounded-lg font-semibold mb-6">
-                {selectedChat?.name}
-              </p>
-              {messages.map((msg, index) => (
-                <Message key={index} role={msg.role} content={msg.content} />
-              ))}
-              {isLoading && (
-                <div className="flex gap-4 max-w-3xl w-full py-3">
-                  <Image
-                    className="h-9 w-9 p-1 border border-white/15 rounded-full"
-                    src={assets.chatgpt_icon}
-                    alt="Logo"
-                  />
-                  <div className="loader flex justify-center items-center gap-1">
-                    <div className="w-1 h-1 rounded-full bg-white animate-bounce"></div>
-                    <div className="w-1 h-1 rounded-full bg-white animate-bounce"></div>
-                    <div className="w-1 h-1 rounded-full bg-white animate-bounce"></div>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
+          <div className="flex flex-col h-full px-4 pt-20 overflow-hidden relative">
+  {/* 📩 Scrollable messages */}
+  <div
+  ref={containerRef}
+  className="flex-1 overflow-y-auto pb-[160px] px-4"
+>
+  {messages.length === 0 ? (
+  <div className="h-full flex flex-col items-center justify-center text-center">
+    <div className="flex items-center gap-3">
+      <Image src={assets.chatgpt_icon} alt="" className="w-12 h-12" />
+      <p className="text-2xl font-medium">Hi, I&apos;m Chat-GPT.</p>
+    </div>
+    <p className="text-sm mt-2 text-white/80">How can I help you today?</p>
 
-          {!isSignedIn ? (
-          <div
-            onClick={() => toast.error("🔒 Please login to send a message.")}
-            className="w-full max-w-2xl bg-[#404045] p-4 rounded-3xl mt-4 cursor-not-allowed opacity-80"
-          >
-         <textarea
+    {/* 👇 PromptBox inline when no messages */}
+    <div className="mt-8 max-w-2xl w-full px-4">
+      {!isSignedIn ? (
+        <div
+          onClick={() => toast.error("🔒 Please login to send a message.")}
+          className="bg-[#404045] p-4 rounded-3xl cursor-not-allowed opacity-80"
+        >
+          <textarea
             disabled
             placeholder="Login to message ChatGPT"
             className="outline-none w-full resize-none overflow-hidden break-words bg-transparent text-gray-400"
             rows={2}
-         />
-         </div>
-        ) : (
+          />
+        </div>
+      ) : (
         <PromptBox isLoading={isLoading} setIsLoading={setIsLoading} />
-        )}
-          <p className="text-xs absolute bottom-1 text-gray-500">
-            AI-can also make mistakes, for reference only
-          </p>
+      )}
+      <p className="text-xs text-center mt-1 text-gray-500">
+        AI can also make mistakes, for reference only.
+      </p>
+    </div>
+  </div>
+) : (
+    <div className="flex flex-col items-center  w-full">
+      <p className="mt-4 mb-6 font-semibold">{selectedChat?.name}</p>
+      {messages.map((msg, index) => (
+        <Message key={index} role={msg.role} content={msg.content} />
+      ))}
+      {isLoading && (
+        <div className="flex gap-4 max-w-3xl w-full py-3">
+          <Image
+            className="h-9 w-9 p-1 border border-white/15 rounded-full"
+            src={assets.chatgpt_icon}
+            alt="Logo"
+          />
+          <div className="loader flex justify-center items-center gap-1">
+            <div className="w-1 h-1 rounded-full bg-white animate-bounce"></div>
+            <div className="w-1 h-1 rounded-full bg-white animate-bounce"></div>
+            <div className="w-1 h-1 rounded-full bg-white animate-bounce"></div>
+          </div>
+        </div>
+      )}
+    </div>
+  )}
+</div>
+
+   {messages.length > 0 && (
+  <div className="absolute bottom-2 left-0 right-0 px-4">
+    <div className="max-w-2xl mx-auto">
+      {!isSignedIn ? (
+        <div
+          onClick={() => toast.error("🔒 Please login to send a message.")}
+          className="bg-[#404045] p-4 rounded-3xl cursor-not-allowed opacity-80"
+        >
+          <textarea
+            disabled
+            placeholder="Login to message ChatGPT"
+            className="outline-none w-full resize-none overflow-hidden break-words text-gray-400"
+            rows={2}
+          />
+        </div>
+      ) : (
+        <PromptBox isLoading={isLoading} setIsLoading={setIsLoading} />
+      )}
+      <p className="text-xs text-center mt-1 text-gray-500">
+        AI can also make mistakes, for reference only.
+      </p>
+    </div>
+  </div>
+)}
+</div>
+
         </div>
       </div>
     </div>
