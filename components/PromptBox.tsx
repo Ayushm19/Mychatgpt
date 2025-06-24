@@ -183,6 +183,8 @@ const PromptBox: React.FC<PromptBoxProps> = ({ setIsLoading, isLoading }) => {
     setShowUploadOptions(false)
   }
 
+  const [showTools, setShowTools] = useState(false)
+
   return (
     <>
       {showUploadOptions && (
@@ -269,6 +271,40 @@ const PromptBox: React.FC<PromptBoxProps> = ({ setIsLoading, isLoading }) => {
               Search
             </p>
             <Mem0Popover />
+            {/* Mobile Tools Dropup */}
+            <div className="relative sm:hidden">
+            <button
+            type="button"
+            onClick={() => setShowTools(prev => !prev)}
+            className="text-sm font-medium border border-gray-300/40 px-4 py-1.5 rounded-full hover:bg-gray-500/20 transition active:scale-95"
+            >
+            🛠️ Tools
+            </button>
+
+          {showTools && (
+          <div className="absolute bottom-full mb-2 left-0 bg-[#2c2e33] text-white rounded-lg shadow-lg w-36 z-50">
+          <button
+          type="button"
+          onClick={handleDeepThinkClick}
+          className="w-full px-4 py-2 text-left hover:bg-white/10"
+          >
+         🧠 DeepThink
+         </button>
+         <button
+         type="button"
+         onClick={() => {
+          if (!prompt.trim()) return toast('✏️ Write something first')
+          setShowSearchDialog(true)
+          setShowTools(false)
+        }}
+        className="w-full px-4 py-2 text-left hover:bg-white/10"
+        >
+        🔍 Search
+       </button>
+      </div>
+       )}
+     </div>
+
           </div>
 
           <div className="flex items-center gap-2">
